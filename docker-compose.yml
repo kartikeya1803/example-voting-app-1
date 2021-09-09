@@ -6,7 +6,6 @@ services:
     build:
     context: .
       dockerfile: vote/Dockerfile
-    	
     volumes:
      - ./vote:/app
     ports:
