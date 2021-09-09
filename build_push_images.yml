@@ -28,25 +28,19 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
+    - task: DockerCompose@0
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
-    - task: Docker@2
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Free Trial(2e5355c3-dc8c-41c0-996c-1d86013cb27c)'
+        azureContainerRegistry: '{"loginServer":"votingappimages.azurecr.io", "id" : "/subscriptions/2e5355c3-dc8c-41c0-996c-1d86013cb27c/resourceGroups/voting_app/providers/Microsoft.ContainerRegistry/registries/Votingappimages"}'
+        dockerComposeFile: '**/docker-compose.yml'
+        action: 'Build services'
+        includeLatestTag: true
+    - task: DockerCompose@0
       inputs:
-        containerRegistry: 'Votingappimages'
-        repository: 'vote-im'
-        command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)/vote/Dockerfile'
-
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'Votingappimages'
-        repository: 'worker-im'
-        command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)/worker/Dockerfile'
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'Free Trial(2e5355c3-dc8c-41c0-996c-1d86013cb27c)'
+        azureContainerRegistry: '{"loginServer":"votingappimages.azurecr.io", "id" : "/subscriptions/2e5355c3-dc8c-41c0-996c-1d86013cb27c/resourceGroups/voting_app/providers/Microsoft.ContainerRegistry/registries/Votingappimages"}'
+        dockerComposeFile: '**/docker-compose.yml'
+        action: 'Push services'
+        includeLatestTag: true
