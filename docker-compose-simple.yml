@@ -10,17 +10,19 @@ services:
       - "5000:80"
 
   redis:
-    image: redis:alpine
+    image: redis:5.0-alpine3.10
     ports: ["6379"]
 
   worker:
     build: ./worker
 
   db:
-    image: postgres:9.4
+    image: postgres:latest
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - db-data:/var/lib/postgresql/data
 
   result:
     build: ./result
@@ -30,3 +32,5 @@ services:
     ports:
       - "5001:80"
       - "5858:5858"
+volumes:
+  db-data:
