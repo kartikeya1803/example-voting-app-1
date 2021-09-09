@@ -2,7 +2,11 @@ version: "3.7"
 
 services:
   vote:
-    image: kar0169/vote-im
+    image: votingappimages.azurecr.io/vote-im
+    build:
+    context: .
+      dockerfile: vote/Dockerfile
+    	
     volumes:
      - ./vote:/app
     ports:
@@ -13,7 +17,10 @@ services:
     ports: ["6379"]
 
   worker:
-    image: kar0169/worker-im
+    image: votingappimages.azurecr.io/worker-im
+    build:
+    context: .
+      dockerfile: worker/Dockerfile
 
   db:
     image: postgres:latest
@@ -24,7 +31,10 @@ services:
       - db-data:/var/lib/postgresql/data
 
   result:
-    image: kar0169/result-im
+    image: votingappimages.azurecr.io/result-im
+    build:
+    context: .
+      dockerfile: result/Dockerfile
     volumes:
       - ./result:/app
     ports:
