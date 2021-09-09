@@ -4,8 +4,8 @@ services:
   vote:
     image: votingappimages.azurecr.io/vote-im
     build:
-    context: .
-      dockerfile: vote/Dockerfile
+      context: ./vote
+      dockerfile: Dockerfile
     volumes:
      - ./vote:/app
     ports:
@@ -18,8 +18,8 @@ services:
   worker:
     image: votingappimages.azurecr.io/worker-im
     build:
-    context: .
-      dockerfile: worker/Dockerfile
+      context: ./worker
+      dockerfile: Dockerfile
 
   db:
     image: postgres:latest
@@ -32,8 +32,8 @@ services:
   result:
     image: votingappimages.azurecr.io/result-im
     build:
-    context: .
-      dockerfile: result/Dockerfile
+      context: ./result
+      dockerfile: Dockerfile
     volumes:
       - ./result:/app
     ports:
